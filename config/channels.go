@@ -14,6 +14,7 @@ type ProxyConfig struct {
 
 type Channel struct {
 	Name             string       `json:"name"`
+	ID		 int	      `json:"id"`
 	URL              string       `json:"url"`
 	ProxyConfig      *ProxyConfig `json:"proxy"`
 	DisableTranscode bool         `json:"disableTranscode"`
@@ -36,6 +37,8 @@ func init() {
 
 	var decoder = json.NewDecoder(file)
 	err = decoder.Decode(&Channels)
+	
+	// you might have to manually set the channels here
 
 	if err != nil {
 		log.Fatal(err)
