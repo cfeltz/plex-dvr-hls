@@ -30,7 +30,7 @@ func XMLTV(c *gin.Context) {
 	var channel_numbers []int
 
 	for index, channel := range config.Channels {
-		channel_number = index + 1
+		var channel_number int = index + 1
 		if channel.ID != 0 {
 			channel_number = channel.ID
 		}
@@ -40,7 +40,7 @@ func XMLTV(c *gin.Context) {
 		}
 		channel_numbers = append(
 			channel_numbers,
-			channel__number
+			channel_number,
 		)
 
 		channels = append(
