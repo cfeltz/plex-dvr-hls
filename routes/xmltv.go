@@ -27,14 +27,25 @@ func XMLTV(c *gin.Context) {
 	var channels []ChannelSimplified
 
 	for index, channel := range config.Channels {
-		channels = append(
-			channels,
-			ChannelSimplified{
-				ID:   index + 1,
-				Name: channel.Name,
-				Icon: channel.Icon,
-			},
-		)
+		if channel.ID == 0 {
+			channels = append(
+				channels,
+				ChannelSimplified{
+					ID:   index + 1,
+					Name: channel.Name,
+          Icon: channel.Icon,
+				},
+			)
+		} else {
+			channels = append(
+				channels,
+				ChannelSimplified{
+					ID:   channel.ID,
+					Name: channel.Name,
+          Icon: channel.Icon,
+				},
+			)
+		}
 	}
 
 	var programmes []Programme
