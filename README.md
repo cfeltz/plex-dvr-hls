@@ -6,11 +6,47 @@ This web server emulates a SiliconDust HDHomeRun by its HTTP API for use with Pl
 - XMLTV file generation (it just creates a generic 24/7 programme for each available channel)
 
 ### Running
+##### Docker
+A prebuilt [Docker image](https://github.com/duncanleo/plex-dvr-hls/pkgs/container/plex-dvr-hls) is available for use. 
+
+###### Supported Architectures
+- `linux/amd64`
+- `linux/arm64`
+- `linux/arm/v7`
+
+###### Docker Compose
+Please refer to the [sample Docker Compose file](./docker-compose.yml) for a more seamless setup.
+
+Please note that the following files need to be present in the same directory (see examples in the repository).
+- `config.json`
+- `channels.json`
+
+```yaml
+services:
+  plex-dvr-hls:
+    image: ghcr.io/duncanleo/plex-dvr-hls:latest
+    volumes:
+      - type: bind
+        source: './config.json'
+        target: '/app/config.json'
+        read_only: true
+      - type: bind
+        source: './channels.json'
+        target: '/app/channels.json'
+        read_only: true
+    ports:
+      - '5004:5004'
+```
+
+##### Binary
 1. Download a binary release from GitHub, or clone the repository and compile on your machine (e.g. with `GOOS=linux GOARCH=amd64 go build -o plex-dvr-hls-linux-amd64 cmd/main.go`)
-1. Create a `config.json` in the working directory and fill in the necessary. Possible values for `encoder_profile` are `vaapi`, `video_toolbox`, `omx` and `cpu`. A sample `config.example.json` is available on GitHub.
-2. Create a `channels.json` and fill in the necessary. A sample `channels.example.json` is available on GitHub.
-3. Copy the `templates` folder from this repository into the working directory (alongside the two JSON files)
-4. Add the server to the Plex DVR e.g. `http://<ip of machine>:5004`. When prompted for an Electronic Programme Guide, you can either use one if it's available, or use the auto-generated one by entering `http://<ip of machine>:5004/xmltv`
+2. Create a `config.json` in the working directory and fill in the necessary.
+   - Possible values for `encoder_profile` are `vaapi`, `video_toolbox`, `omx` and `cpu`. A sample `config.example.json` is available on GitHub.
+3. Create a `channels.json` and fill in the necessary.
+   - A sample `channels.example.json` is available on GitHub.
+4. Copy the `templates` folder from this repository into the working directory (alongside the two JSON files)
+5. Add the server to the Plex DVR e.g. `http://<ip of machine>:5004`.
+   - When prompted for an Electronic Programme Guide, you can either use one if it's available, or use the auto-generated one by entering `http://<ip of machine>:5004/xmltv`
 
 ### Development
 1. Clone the repo

@@ -12,8 +12,9 @@ import (
 )
 
 type ChannelSimplified struct {
-	ID   int
-	Name string
+    ID   int
+    Name string
+    Icon *string
 }
 
 type Programme struct {
@@ -32,6 +33,7 @@ func XMLTV(c *gin.Context) {
 				ChannelSimplified{
 					ID:   index + 1,
 					Name: channel.Name,
+          Icon: channel.Icon,
 				},
 			)
 		} else {
@@ -40,11 +42,10 @@ func XMLTV(c *gin.Context) {
 				ChannelSimplified{
 					ID:   channel.ID,
 					Name: channel.Name,
+          Icon: channel.Icon,
 				},
 			)
 		}
-
-
 	}
 
 	var programmes []Programme
